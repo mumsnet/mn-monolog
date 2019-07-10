@@ -1,0 +1,25 @@
+{
+    "name": "mumsnet/mn-monolog",
+    "description": "Custom handlers for Monolog",
+    "type": "library",
+    "require": {
+        "php": "^7.3",
+        "monolog/monolog": "^1.24"
+    },
+    "require-dev": {
+        "jakub-onderka/php-parallel-lint": "^0.9",
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {"MnMonolog\\": "src/MnMonolog"}
+    },
+    "autoload-dev": {
+        "psr-4": {"MnMonolog\\": "tests/MnMonolog"}
+    },
+    "scripts": {
+        "test": [
+            "parallel-lint -p /opt/php/bin/php . --exclude vendor",
+            "phpunit"
+        ]
+    }
+}
