@@ -1,0 +1,16 @@
+language: php
+
+services:
+  - docker
+
+before_script:
+  - docker build -t mn-monolog:latest .
+  - docker run -v `pwd`:/mn-monolog mn-monolog:latest composer install --prefer-dist
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+script: docker run -v `pwd`:/mn-monolog mn-monolog:latest composer test
+
+
