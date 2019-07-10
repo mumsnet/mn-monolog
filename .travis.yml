@@ -5,7 +5,7 @@ services:
 
 before_script:
   - docker build -t mn-monolog:latest .
-  - docker run -v `pwd`:/mn-monolog mn-monolog:latest composer install --prefer-dist
+  - docker run -v `pwd`:/mn-monolog mn-monolog:latest composer update
 
 cache:
   directories:
