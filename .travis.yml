@@ -9,7 +9,7 @@ before_script:
 
 cache:
   directories:
-    - $HOME/.composer/cache
+    - vendor
 
 script: docker run -v `pwd`:/mn-monolog mn-monolog:latest composer test
 
