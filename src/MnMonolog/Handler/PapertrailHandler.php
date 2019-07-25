@@ -10,7 +10,8 @@ use Monolog\Handler\AbstractSyslogHandler;
  * A Handler for logging Papertrail.
  * Based on SyslogUdpHandler from Monolog.
  */
-class PapertrailHandler extends AbstractSyslogHandler {
+class PapertrailHandler extends AbstractSyslogHandler
+{
     const RFC5424 = 1;
     private $dateFormats = array(
         self::RFC5424 => \DateTime::RFC3339
@@ -27,15 +28,17 @@ class PapertrailHandler extends AbstractSyslogHandler {
      * @param string $ident Program name or tag for each log message.
      * @param string|int $level The minimum logging level at which this handler will be triggered
      */
-    public function __construct(string $host, int $port, string $localhost, string $ident, $level = Logger::DEBUG) {
-        parent::__construct(LOG_USER, $level, TRUE);
+    public function __construct(string $host, int $port, string $localhost, string $ident, $level = Logger::DEBUG)
+    {
+        parent::__construct(LOG_USER, $level, true);
         $this->localhost = $localhost;
         $this->ident = $ident;
         $this->rfc = self::RFC5424;
         $this->socket = new UdpSocket($host, $port);
     }
 
-    protected function write(array $record): void {
+    protected function write(array $record): void
+    {
         $lines = $this->splitMessageIntoLines($record['formatted']);
         $header = $this->makeCommonSyslogHeader($this->logLevels[$record['level']]);
         foreach ($lines as $line) {
@@ -43,11 +46,13 @@ class PapertrailHandler extends AbstractSyslogHandler {
         }
     }
 
-    public function close(): void {
+    public function close(): void
+    {
         $this->socket->close();
     }
 
-    private function splitMessageIntoLines($message): array {
+    private function splitMessageIntoLines($message): array
+    {
         if (is_array($message)) {
             $message = implode("\n", $message);
         }
@@ -57,7 +62,8 @@ class PapertrailHandler extends AbstractSyslogHandler {
     /**
      * Make common syslog header (see rfc5424)
      */
-    protected function makeCommonSyslogHeader(int $severity): string {
+    protected function makeCommonSyslogHeader(int $severity): string
+    {
         $priority = $severity + $this->facility;
         if (!$pid = getmypid()) {
             $pid = '-';
@@ -70,7 +76,8 @@ class PapertrailHandler extends AbstractSyslogHandler {
             $pid . " - - ";
     }
 
-    protected function getDateTime(): string {
+    protected function getDateTime(): string
+    {
         return date($this->dateFormats[$this->rfc]);
     }
 
